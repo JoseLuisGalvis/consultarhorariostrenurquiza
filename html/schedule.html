@@ -285,7 +285,7 @@
         // Selección de dirección
         const btnIda = document.getElementById("btnIda");
         const btnVuelta = document.getElementById("btnVuelta");
-        let selectedDirection = "Ida";
+        let selectedDirection = "ida";
 
         btnIda.addEventListener("click", () => {
           btnIda.classList.add("active");
@@ -296,7 +296,7 @@
         btnVuelta.addEventListener("click", () => {
           btnVuelta.classList.add("active");
           btnIda.classList.remove("active");
-          selectedDirection = "Vuelta";
+          selectedDirection = "vuelta";
         });
 
         // Selección de día
@@ -329,7 +329,7 @@
         // Redirección al hacer clic en Consultar Horarios
         const btnConsultar = document.getElementById("btnConsultar");
         btnConsultar.addEventListener("click", () => {
-          const url = `../../${selectedDirection}/${selectedDay}.html`;
+          const url = `../${selectedDirection}/${selectedDay}.html`;
           window.location.href = url;
         });
       });
