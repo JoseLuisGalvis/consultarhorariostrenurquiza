@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Favicon -->
+    <link rel="icon" href="../assets/images/icono.png" type="image/png" />
+    <title>Consulta de Horarios - Tren Urquiza</title>
+    <!-- Bootstrap 5 CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <!-- FontAwesome CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- AOS CSS para animaciones -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
+  <body>
+    <div class="container-fluid d-flex flex-column min-vh-100 text-white">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
+        <div class="container-fluid">
+          <h3>
+            <i class="fas fa-train mx-2" id="train-icon"></i>
+            <a
+              href="https://www.trensanmartin.com.ar/"
+              target="_blank"
+              class="train-title"
+              >Tren Urquiza</a
+            >
+          </h3>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mx-2">
+              <li class="nav-item">
+                <a class="nav-link" href="../index.html" id="nav-inicio"
+                  >Inicio</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="../html/clima.html" id="nav-clima"
+                  >Clima</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="../html/map.html" id="nav-mapa"
+                  >Mapa</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="../html/contact.html"
+                  id="nav-contacto"
+                  >Contacto</a
+                >
+              </li>
+            </ul>
+            <span class="current-time">Hora: --:--:--</span>
+            <div class="d-flex align-items-center mt-2">
+              <!-- Botón de Internacionalización -->
+              <div class="dropdown mx-4">
+                <ul class="dropdown-menu">
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      data-lang="es"
+                      aria-label="Seleccionar Español"
+                    >
+                      🇪🇸 Español
+                    </button>
+                    <button
+                      class="dropdown-item"
+                      data-lang="en"
+                      aria-label="Select English"
+                    >
+                      🇺🇸 English
+                    </button>
+                  </li>
+                </ul>
+                <button
+                  class="btn btn-outline-language dropdown-toggle"
+                  id="languageDropdown"
+                  data-bs-toggle="dropdown"
+                >
+                  Español
+                </button>
+              </div>
+              <!-- Botón de Modo Oscuro/Claro -->
+              <button class="btn btn-light me-2 toggle-dark-mode">
+                <i class="fas fa-moon moon-icon"></i>
+                <i class="fas fa-sun sun-icon d-none"></i>
+              </button>
+              <div>
+                <a
+                  href="../index.html"
+                  class="btn btn-outline-light btn-atras"
+                  aria-label="Volver al cronograma"
+                  >Atrás</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <!-- Main -->
+      <main class="flex-grow-1 py-4">
+        <div class="container">
+          <!-- Sección inicial de selección -->
+          <div id="selectionView" class="row">
+            <!-- Tarjeta principal de consulta -->
+            <div class="col-lg-8 mx-auto mb-4">
+              <div
+                class="schedule-card card"
+                data-aos="zoom-in"
+                data-aos-duration="800"
+              >
+                <div class="card-header-custom">
+                  <h2 class="mb-0">
+                    <i class="fas fa-clock me-2"></i>
+                    <span id="scheduleTitle">Consulta de Horarios</span>
+                  </h2>
+                  <p class="mb-0 mt-2 opacity-75">
+                    Selecciona Dirección y Día de Viaje
+                  </p>
+                </div>
+                <div class="card-body p-4">
+                  <!-- Selector de dirección -->
+                  <div class="mb-4">
+                    <label class="form-label fw-bold">Sentido del Viaje</label>
+                    <div class="d-flex flex-column flex-md-row">
+                      <button
+                        class="btn btn-direction active w-100 mb-2 mb-md-0 me-md-2"
+                        id="btnIda"
+                        data-direction="Ida"
+                      >
+                        <i class="fas fa-long-arrow-alt-right me-2"></i> Ida:
+                        Retiro → Dr. Cabred
+                      </button>
+                      <button
+                        class="btn btn-direction w-100"
+                        id="btnVuelta"
+                        data-direction="Vuelta"
+                      >
+                        <i class="fas fa-long-arrow-alt-left me-2"></i> Vuelta:
+                        Dr. Cabred → Retiro
+                      </button>
+                    </div>
+                  </div>
+                  <!-- Selector de días -->
+                  <div class="mb-4">
+                    <label class="form-label fw-bold">Día de Viaje</label>
+                    <div class="d-flex flex-column flex-md-row gap-2">
+                      <button
+                        type="button"
+                        class="btn btn-day active w-100"
+                        id="btnWeekday"
+                        data-day="lunes_a_viernes"
+                      >
+                        <i class="fas fa-calendar-day me-1"></i> Lunes a Viernes
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-day w-100"
+                        id="btnSaturday"
+                        data-day="sabado"
+                      >
+                        <i class="fas fa-calendar-day me-1"></i> Sábado
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-day w-100"
+                        id="btnSunday"
+                        data-day="domingo_y_feriados"
+                      >
+                        <i class="fas fa-calendar-day me-1"></i> Domingo y
+                        Feriados
+                      </button>
+                    </div>
+                  </div>
+                  <!-- Botón de consulta -->
+                  <button
+                    id="btnConsultar"
+                    class="btn bg-consultar w-100 py-3 mt-3"
+                  >
+                    <i class="fas fa-search me-2"></i> Consultar
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Publicidad -->
+            <div class="col-12">
+              <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                  <div
+                    class="ad-card card h-100"
+                    data-aos="fade-up"
+                    data-aos-delay="100"
+                  >
+                    <img
+                      src="../assets/images/TFSAds.png"
+                      class="card-img-top img-fluid h-100 object-fit-cover rounded"
+                      alt="Publicidad"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                  <div
+                    class="ad-card card h-100"
+                    data-aos="fade-up"
+                    data-aos-delay="200"
+                  >
+                    <img
+                      src="../assets/images/selectorHorarios.png"
+                      class="card-img-top img-fluid h-100 object-fit-cover rounded"
+                      alt="Publicidad"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                  <div
+                    class="ad-card card h-100"
+                    data-aos="fade-up"
+                    data-aos-delay="300"
+                  >
+                    <img
+                      src="../assets/images/selectorHorarios.png"
+                      class="card-img-top img-fluid h-100 object-fit-cover rounded"
+                      alt="Publicidad"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                  <div
+                    class="ad-card card h-100"
+                    data-aos="fade-up"
+                    data-aos-delay="400"
+                  >
+                    <img
+                      src="../assets/images/selectorHorarios.png"
+                      class="card-img-top img-fluid h-100 object-fit-cover rounded"
+                      alt="Publicidad"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Scripts al final -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../js/script.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Selección de dirección
+        const btnIda = document.getElementById("btnIda");
+        const btnVuelta = document.getElementById("btnVuelta");
+        let selectedDirection = "Ida";
+
+        btnIda.addEventListener("click", () => {
+          btnIda.classList.add("active");
+          btnVuelta.classList.remove("active");
+          selectedDirection = "Ida";
+        });
+
+        btnVuelta.addEventListener("click", () => {
+          btnVuelta.classList.add("active");
+          btnIda.classList.remove("active");
+          selectedDirection = "Vuelta";
+        });
+
+        // Selección de día
+        const btnWeekday = document.getElementById("btnWeekday");
+        const btnSaturday = document.getElementById("btnSaturday");
+        const btnSunday = document.getElementById("btnSunday");
+        let selectedDay = "lunes_a_viernes";
+
+        btnWeekday.addEventListener("click", () => {
+          btnWeekday.classList.add("active");
+          btnSaturday.classList.remove("active");
+          btnSunday.classList.remove("active");
+          selectedDay = "lunes_a_viernes";
+        });
+
+        btnSaturday.addEventListener("click", () => {
+          btnSaturday.classList.add("active");
+          btnWeekday.classList.remove("active");
+          btnSunday.classList.remove("active");
+          selectedDay = "sabado";
+        });
+
+        btnSunday.addEventListener("click", () => {
+          btnSunday.classList.add("active");
+          btnWeekday.classList.remove("active");
+          btnSaturday.classList.remove("active");
+          selectedDay = "domingo_y_feriados";
+        });
+
+        // Redirección al hacer clic en Consultar Horarios
+        const btnConsultar = document.getElementById("btnConsultar");
+        btnConsultar.addEventListener("click", () => {
+          const url = `../${selectedDirection}/${selectedDay}.html`;
+          window.location.href = url;
+        });
+      });
+    </script>
+  </body>
+</html>

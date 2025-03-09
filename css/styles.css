@@ -1,0 +1,572 @@
+/* styles.css */
+/* Definición de variables para facilitar la personalización */
+:root {
+  --dark-bg: #1a1a1a;
+  --dark-text: #ffffff;
+  --primary-color: #007bff;
+  --btn-bg: #090909;
+  --btn-hover-bg: #0a0a0a;
+  --btn-shadow: rgba(14, 15, 15, 0.3);
+  --btn-hover-shadow: rgba(6, 6, 6, 0.4);
+  --btn-dark-mode-bg: #333;
+  --btn-dark-mode-hover-bg: #444;
+  --btn-dark-mode-shadow: rgba(255, 255, 255, 0.2);
+  --logo-con-color: #66b0ff;
+  --logo-sul-color: #fff;
+  --logo-tar-color: #ffeb3b;
+  --logo-san-martin-color: #000;
+  --sun-color: #ffd700;
+  --moon-color: #5c6bc0;
+}
+
+body {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.container-fluid {
+  padding: 0;
+}
+
+.train-title,
+#train-icon {
+  color: #ffd700 !important;
+}
+
+body.dark-mode .bg-consultar {
+  background-color: var(--btn-dark-mode-bg);
+  box-shadow: 0 4px 15px var(--btn-dark-mode-shadow);
+}
+
+body.dark-mode .bg-consultar:hover {
+  background-color: var(--btn-dark-mode-hover-bg);
+  box-shadow: 0 6px 20px var(--btn-dark-mode-shadow);
+}
+
+/* Navbar */
+.navbar-dark {
+  transition: background-color 0.3s ease;
+}
+
+body.dark-mode .navbar-dark {
+  background-color: #2c2c2c !important;
+}
+
+.navbar-nav .nav-link {
+  font-weight: 700;
+  transition: all 0.3s ease-in-out;
+}
+
+body.dark-mode .navbar-nav .nav-link {
+  color: #ddd;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #fff;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+}
+
+.current-time {
+  font-size: 1.2rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-family: "Arial", sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .current-time {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.current-time:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.02);
+}
+
+.train-title {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Estilos para el botón de consulta */
+.bg-consultar {
+  position: relative;
+  overflow: hidden;
+  padding: 0.8rem 2.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #fff;
+  background-color: var(--btn-bg);
+  transition: background-color 0.3s ease, transform 0.3s ease,
+    box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px var(--btn-shadow);
+}
+
+.bg-consultar:hover {
+  background-color: var(--btn-hover-bg);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--btn-hover-shadow);
+}
+
+.bg-consultar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.bg-consultar:hover::before {
+  left: 100%;
+}
+
+/* Estilos para el botón de modo oscuro */
+.toggle-dark-mode {
+  width: 45px;
+  height: 45px;
+  border: none;
+  background-color: #fff;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .toggle-dark-mode {
+  background: #ffeb3b; /* Fondo amarillo claro en modo oscuro */
+}
+
+.toggle-dark-mode:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.toggle-dark-mode i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  color: #333;
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.toggle-dark-mode .sun-icon {
+  color: var(--sun-color); /* #ffd700 en modo claro */
+}
+
+body.dark-mode .toggle-dark-mode .sun-icon {
+  color: #000; /* Negro en modo oscuro */
+}
+
+.toggle-dark-mode .moon-icon {
+  color: var(--moon-color); /* #5c6bc0 */
+}
+
+/* Modo oscuro general */
+body.dark-mode {
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+}
+
+body.dark-mode .home-title,
+body.dark-mode .logo-san-martin {
+  color: var(--dark-text) !important;
+}
+
+body.dark-mode .text-weather {
+  color: #fff !important;
+}
+body.dark-mode .copyright {
+  color: var(--dark-text) !important;
+}
+
+body.dark-mode .text-center-contact,
+body.dark-mode .form-label {
+  color: var(--dark-text) !important;
+}
+
+/* Logo tipográfico */
+.logo-text-animated {
+  font-family: Arial, sans-serif;
+  font-size: 5rem;
+  font-weight: bold;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-con {
+  color: var(--logo-con-color);
+  -webkit-text-stroke: 4px #000;
+}
+
+.logo-sul {
+  color: var(--logo-sul-color);
+  -webkit-text-stroke: 4px #000;
+}
+
+.logo-tar {
+  color: var(--logo-tar-color);
+  -webkit-text-stroke: 4px #000;
+}
+
+.logo-san-martin {
+  color: var(--logo-san-martin-color);
+  font-size: 3rem !important;
+  width: 100%;
+  text-align: center;
+}
+
+.home-title {
+  color: var(--logo-san-martin-color);
+}
+
+body.dark-mode .logo-con,
+body.dark-mode .logo-tar {
+  text-shadow: 0 8px 16px rgba(255, 255, 255, 0.3);
+}
+
+body.dark-mode .logo-sul {
+  color: #ccc;
+  text-shadow: 0 8px 16px rgba(255, 255, 255, 0.3);
+}
+
+/* Botones de idioma y atrás */
+.btn-outline-language {
+  border: 2px solid #fff !important;
+  color: #fff;
+}
+
+body.dark-mode .btn-outline-language {
+  border-color: #ddd !important;
+  color: #ddd;
+}
+
+.btn-outline-language:hover {
+  background-color: #fff;
+  border: 2px solid #0707f5 !important;
+  color: #0707f5;
+}
+
+body.dark-mode .btn-outline-language:hover {
+  background-color: #444;
+  border-color: #fff !important;
+  color: #fff;
+}
+
+.btn-atras {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode .btn-atras {
+  background-color: #333;
+  border-color: #fff;
+  color: #fff;
+}
+
+body.dark-mode .btn-atras:hover {
+  background-color: #444;
+  color: #fff;
+}
+
+body.dark-mode .email-address {
+  color: #fff !important;
+}
+
+/* Logo */
+
+.img-logo {
+  width: 30%;
+}
+
+body.dark-mode .img-logo {
+  background-color: #fff;
+}
+
+/* Schedule */
+.schedule-card {
+  padding: 1em 2em;
+  background-color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.dark-mode .schedule-card {
+  background-color: #333;
+  color: #fff;
+  box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+}
+
+.schedule-card:hover {
+  transform: translateZ(20px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .schedule-card:hover {
+  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+}
+
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.dark-mode .card {
+  background-color: #333;
+  color: #fff;
+  box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+}
+
+.card:hover {
+  transform: translateZ(20px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .card:hover {
+  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+}
+
+.btn-direction {
+  background-color: #f8f9fa;
+  color: #000;
+  border: 1px solid #000;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode .btn-direction {
+  background-color: #444;
+  color: #fff;
+  border-color: #fff;
+}
+
+.btn-direction:hover {
+  background-color: #ddd;
+}
+
+body.dark-mode .btn-direction:hover {
+  background-color: #555;
+}
+
+.btn-direction.active {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-color: #000 !important;
+}
+
+body.dark-mode .btn-direction.active {
+  background-color: #666 !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+
+.btn-day {
+  background-color: #f8f9fa;
+  color: #000;
+  border: 1px solid #000;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode .btn-day {
+  background-color: #444;
+  color: #fff;
+  border-color: #fff;
+}
+
+.btn-day:hover {
+  background-color: #ddd;
+}
+
+body.dark-mode .btn-day:hover {
+  background-color: #555;
+}
+
+.btn-day.active {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-color: #000 !important;
+}
+
+body.dark-mode .btn-day.active {
+  background-color: #666 !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+
+/* Publicidad */
+.ad-card img {
+  transition: filter 0.3s ease;
+}
+
+body.dark-mode .ad-card img {
+  filter: brightness(0.9); /* Reduce el brillo para mejor contraste */
+}
+
+/** Estilos Vista Ida L-V  **/
+.search-section {
+  background-color: #f8f9fa;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.ads-section {
+  margin-top: 2rem;
+}
+.ad-card {
+  transition: transform 0.3s ease;
+  height: 200px;
+  overflow: hidden;
+}
+.ad-card:hover {
+  transform: translateY(-5px);
+}
+.results-container {
+  max-height: 400px;
+  overflow: auto;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden; /* Sin scroll horizontal */
+  overflow-y: auto; /* Scroll vertical si hay más de 5 resultados */
+  padding: 1rem;
+  box-sizing: border-box;
+}
+.train-result {
+  transition: all 0.3s ease;
+}
+.train-result:hover {
+  transform: scale(1.02);
+}
+body.dark-mode {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+body.dark-mode .search-section {
+  background-color: #2d2d2d;
+}
+body.dark-mode .card {
+  background-color: #333333;
+  color: #ffffff;
+}
+
+/* Redes sociales */
+.social-icons {
+  display: flex;
+  gap: 1.25rem;
+  justify-content: center;
+}
+
+.social-icons a {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  transform: translateY(-2px);
+}
+
+.social-icons i.bi {
+  color: #000;
+  font-size: 1.5rem;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-icons i.bi:hover {
+  color: #615f5f;
+  transform: scale(1.1);
+}
+
+body.dark-mode .social-icons i.bi {
+  color: #fff;
+}
+
+body.dark-mode .social-icons i.bi:hover {
+  color: #fff;
+}
+
+/* Clima */
+body.dark-mode .text-muted {
+  color: #fff !important;
+}
+
+/* ***   Responsive    *** */
+/* Extra pequeños (teléfonos) */
+@media (max-width: 575.98px) {
+  .logo-text-animated {
+    font-size: 2rem;
+  }
+
+  .logo-con,
+  .logo-sul,
+  .logo-tar {
+    -webkit-text-stroke: 0.125rem #000; /* Equivalente a 2px */
+  }
+
+  .logo-san-martin {
+    color: var(--logo-san-martin-color);
+    font-size: 1.5rem !important;
+    width: 100%;
+    text-align: center;
+  }
+
+  .btn-direction {
+    font-size: 0.9rem;
+  }
+
+  h5 {
+    font-size: 0.9rem;
+  }
+}
+
+/* Pequeños (tablets en vertical) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .btn-direction {
+    font-size: 0.9rem;
+  }
+  h5 {
+    font-size: 1rem;
+  }
+}
+
+/* Medianos (tablets en horizontal) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .btn-direction,
+  .btn-day {
+    font-size: 0.9rem;
+  }
+  h5 {
+    font-size: 1rem;
+  }
+}
+
+/* Grandes (laptops y desktops medianos) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+}
+
+/* Extra grandes (desktops grandes y pantallas anchas) */
+@media (min-width: 1200px) and (max-width: 1399.98px) {
+}
+
+/* XXL (pantallas ultra anchas) */
+@media (min-width: 1400px) {
+}

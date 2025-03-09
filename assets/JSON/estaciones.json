@@ -1,0 +1,27 @@
+{
+    "estaciones": [
+      {"id": 1, "nombre": "Federico_Lacroze"},
+      {"id": 2, "nombre": "José_Artigas"},
+      {"id": 3, "nombre": "PN._Arata"},
+      {"id": 4, "nombre": "Dr._Fco._Beiro"},
+      {"id": 5, "nombre": "El_Libertador"},
+      {"id": 6, "nombre": "Antonio_Devoto"},
+      {"id": 7, "nombre": "Cnel._Fco._Lynch"},
+      {"id": 8, "nombre": "Fernandez Moreno"},
+      {"id": 9, "nombre": "Lourdes"},
+      {"id": 10, "nombre": "Tropezon"},
+      {"id": 11, "nombre": "José_M._Bosch"},
+      {"id": 12, "nombre": "Martin_Coronado"},
+      {"id": 13, "nombre": "Pablo_Podesta"},
+      {"id": 14, "nombre": "Jorge_Newberry"},
+      {"id": 15, "nombre": "Ruben_Dario"},
+      {"id": 16, "nombre": "E._de_los_Andes"},
+      {"id": 17, "nombre": "Juan_B._De_La_Salle"},
+      {"id": 18, "nombre": "Sgto._Barruffaldi"},
+      {"id": 19, "nombre": "Capitan_Lozano"},
+      {"id": 20, "nombre": "Tnte._Agneta"},
+      {"id": 21, "nombre": "Campo_de_Mayo"},
+      {"id": 22, "nombre": "Sgto._Cabral"},
+      {"id": 23, "nombre": "General_Lemos"}
+    ]
+  }

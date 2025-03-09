@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Favicon -->
+    <link rel="icon" href="../assets/images/icono.png" type="image/png" />
+    <title>Ida: Lunes a Viernes - Tren Urquiza</title>
+    <!-- Bootstrap 5 CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <!-- FontAwesome CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- AOS CSS para animaciones -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="../css/styles.css" />
+    <style>
+      /* Estilos para las tarjetas de horarios */
+      .train-time-card {
+        transition: all 0.2s ease;
+        border-left: 4px solid #000;
+      }
+
+      .train-time-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .train-time-badge {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .estacion-header .card {
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .results-container {
+        min-height: 200px;
+      }
+
+      /* Estilo para el botón de consultar */
+      .bg-consultar {
+        background-color: #000;
+        transition: all 0.3s ease;
+      }
+
+      .bg-consultar:hover {
+        background-color: #1c1c1c;
+      }
+
+      #submit-btn {
+        transition: all 0.3s ease;
+      }
+
+      #submit-btn:hover {
+        background-color: #1c1c1c;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 12px rgba(179, 178, 178, 0.1);
+      }
+
+      /* Mejoras para el modo oscuro si lo tienes implementado */
+      body.dark-mode .train-time-card {
+        background-color: #6c6e70;
+        color: #ecf0f1;
+        border-left: 4px solid #ffff;
+      }
+
+      body.dark-mode .text-muted {
+        color: #b2bec3 !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid d-flex flex-column min-vh-100 text-white">
+      <!--  Navbar  -->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
+        <div class="container-fluid">
+          <h3>
+            <i class="fas fa-train mx-2" id="train-icon"></i>
+            <a
+              href="https://www.trensanmartin.com.ar/"
+              target="_blank"
+              class="train-title"
+              >Tren Urquiza</a
+            >
+          </h3>
+          <h5 class="m-0 d-inline ms-3">
+            Ida: Retiro → Dr. Cabred - Lunes a Viernes
+          </h5>
+
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mx-2">
+              <li class="nav-item">
+                <a class="nav-link" href="../index.html" id="nav-inicio"
+                  >Inicio</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="../html/clima.html" id="nav-clima"
+                  >Clima</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="../html/map.html" id="nav-mapa"
+                  >Mapa</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="../html/contact.html"
+                  id="nav-contacto"
+                  >Contacto</a
+                >
+              </li>
+            </ul>
+            <span class="current-time">Hora: --:--:--</span>
+            <div class="d-flex align-items-center mt-2">
+              <!-- Botón de Internacionalización -->
+              <div class="dropdown mx-4">
+                <ul class="dropdown-menu">
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      data-lang="es"
+                      aria-label="Seleccionar Español"
+                    >
+                      🇪🇸 Español
+                    </button>
+                    <button
+                      class="dropdown-item"
+                      data-lang="en"
+                      aria-label="Select English"
+                    >
+                      🇺🇸 English
+                    </button>
+                  </li>
+                </ul>
+                <button
+                  class="btn btn-outline-language dropdown-toggle"
+                  id="languageDropdown"
+                  data-bs-toggle="dropdown"
+                >
+                  Español
+                </button>
+              </div>
+              <!-- Botón de Modo Oscuro/Claro -->
+              <button class="btn btn-light me-2 toggle-dark-mode">
+                <i class="fas fa-moon moon-icon"></i>
+                <i class="fas fa-sun sun-icon d-none"></i>
+              </button>
+              <div>
+                <a
+                  href="../html/schedule.html"
+                  class="btn btn-outline-light btn-atras"
+                  aria-label="Volver al cronograma"
+                  >Atrás</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Main Content -->
+      <!-- Reemplazo solo para la sección principal que muestra los resultados -->
+      <main class="container py-4">
+        <!-- Search and Results Section -->
+        <div class="row search-section p-4 mb-4">
+          <div class="col-md-6">
+            <div class="card border-0 bg-transparent">
+              <div class="card-body">
+                <h5 class="card-title">Buscar Horarios</h5>
+                <div
+                  id="error-message"
+                  class="alert alert-danger d-none"
+                  role="alert"
+                ></div>
+                <form id="horarios-form">
+                  <div class="mb-3">
+                    <label for="estacion" class="form-label">Estación</label>
+                    <select id="estacion" class="form-select" required>
+                      <option value="">Selecciona una estación</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="hora" class="form-label">Hora</label>
+                    <input
+                      type="time"
+                      id="hora"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    class="btn bg-dark text-white w-100"
+                    id="submit-btn"
+                  >
+                    Ver horarios
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card border-0 bg-transparent">
+              <div class="card-body">
+                <h5 class="card-title">Próximos Trenes</h5>
+                <div id="resultados" class="results-container">
+                  <p class="text-muted text-center" id="responseHelp">
+                    Selecciona una estación y hora para ver los horarios
+                    disponibles
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Advertising Section - Publicidad -->
+        <div class="col-12">
+          <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+              <div
+                class="ad-card card h-100"
+                data-aos="fade-up"
+                data-aos-delay="100"
+              >
+                <img
+                  src="../assets/images/consultarLV.png"
+                  class="card-img-top img-fluid h-100 object-fit-cover rounded"
+                  alt="Publicidad"
+                />
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+              <div
+                class="ad-card card h-100"
+                data-aos="fade-up"
+                data-aos-delay="200"
+              >
+                <img
+                  src="../assets/images/consultarLV.png"
+                  class="card-img-top img-fluid h-100 object-fit-cover rounded"
+                  alt="Publicidad"
+                />
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+              <div
+                class="ad-card card h-100"
+                data-aos="fade-up"
+                data-aos-delay="300"
+              >
+                <img
+                  src="../assets/images/consultarLV.png"
+                  class="card-img-top img-fluid h-100 object-fit-cover rounded"
+                  alt="Publicidad"
+                />
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+              <div
+                class="ad-card card h-100"
+                data-aos="fade-up"
+                data-aos-delay="400"
+              >
+                <img
+                  src="../assets/images/consultarLV.png"
+                  class="card-img-top img-fluid h-100 object-fit-cover rounded"
+                  alt="Publicidad"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Scripts al final -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../js/script.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("horarios-form");
+        const estacionSelect = document.getElementById("estacion");
+        const horaInput = document.getElementById("hora");
+        const submitBtn = document.getElementById("submit-btn");
+        const resultadosDiv = document.getElementById("resultados");
+        const errorDiv = document.getElementById("error-message");
+        let horariosData = null;
+
+        // Cargar datos de horarios
+        fetch("../assets/JSON/horarios/horarios_ida_lunes_a_viernes.json")
+          .then((response) => {
+            if (!response.ok) throw new Error("Error al cargar los horarios");
+            return response.json();
+          })
+          .then((data) => {
+            horariosData = data;
+
+            // Cargar estaciones en el dropdown
+            data.estaciones.forEach((estacion, index) => {
+              const option = document.createElement("option");
+              option.value = index;
+              option.textContent = estacion;
+              estacionSelect.appendChild(option);
+            });
+          })
+          .catch((error) => {
+            errorDiv.textContent =
+              window.currentTranslations?.errorCarga ||
+              "Error al cargar los horarios";
+            errorDiv.classList.remove("d-none");
+            console.error("Error fetching horarios:", error);
+          });
+
+        // Manejar el envío del formulario
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const selectedEstacionIdx = parseInt(estacionSelect.value);
+          const selectedTime = horaInput.value;
+
+          if (!horariosData || isNaN(selectedEstacionIdx) || !selectedTime) {
+            errorDiv.textContent =
+              window.currentTranslations?.errorSeleccion ||
+              "Por favor, selecciona una estación y hora válidas";
+            errorDiv.classList.remove("d-none");
+            return;
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> ${
+            window.currentTranslations?.consultando || "Consultando..."
+          }`;
+          errorDiv.classList.add("d-none");
+          resultadosDiv.innerHTML =
+            '<div class="text-center py-4"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
+
+          setTimeout(() => {
+            try {
+              const [hours, minutes] = selectedTime.split(":").map(Number);
+              const selectedMinutes = hours * 60 + minutes;
+              const estacionSeleccionada =
+                horariosData.estaciones[selectedEstacionIdx];
+
+              // Obtener los horarios de la estación seleccionada
+              let horariosEstacion = [];
+              if (horariosData.estacion && horariosData.estacion.length > 0) {
+                // Buscar la estación en el array de estaciones
+                const estacionData = horariosData.estacion.find(
+                  (e) => e.nombre === estacionSeleccionada
+                );
+                if (estacionData && estacionData.horarios) {
+                  horariosEstacion = estacionData.horarios;
+                }
+              }
+
+              // Filtrar horarios posteriores a la hora seleccionada
+              const proximosHorarios = horariosEstacion
+                .map((hora) => {
+                  const [h, m] = hora.split(":").map(Number);
+                  const trenMinutes = h * 60 + m;
+                  return {
+                    hora_salida: hora,
+                    minutos_totales: trenMinutes,
+                  };
+                })
+                .filter((tren) => tren.minutos_totales >= selectedMinutes)
+                .sort((a, b) => a.minutos_totales - b.minutos_totales)
+                .slice(0, 5);
+
+              resultadosDiv.innerHTML = "";
+
+              // Mostrar la estación seleccionada como título
+              const estacionHeader = document.createElement("div");
+              estacionHeader.className = "estacion-header mb-3";
+              estacionHeader.innerHTML = `
+                <div class="card bg-dark text-white">
+                  <div class="card-body py-2 text-center">
+                    <h6 class="mb-0">
+                      <i class="fas fa-subway me-2"></i>
+                      Estación de salida: <strong>${estacionSeleccionada}</strong>
+                    </h6>
+                  </div>
+                </div>
+              `;
+              resultadosDiv.appendChild(estacionHeader);
+
+              if (proximosHorarios.length > 0) {
+                // Crear un contenedor para las tarjetas de horario
+                const horariosContainer = document.createElement("div");
+                horariosContainer.className = "horarios-container";
+
+                proximosHorarios.forEach((horario, index) => {
+                  const timeCard = document.createElement("div");
+                  timeCard.className = "card mb-2 train-time-card";
+
+                  // Calcular el tiempo de espera en minutos
+                  const ahora = new Date();
+                  const horaTren = new Date();
+                  const [horas, mins] = horario.hora_salida
+                    .split(":")
+                    .map(Number);
+                  horaTren.setHours(horas, mins, 0);
+
+                  // Si la hora del tren es anterior a la hora actual (pero en el mismo día),
+                  // asumimos que es para el día siguiente
+                  if (horaTren < ahora) {
+                    horaTren.setDate(horaTren.getDate() + 1);
+                  }
+
+                  const tiempoEspera = Math.floor((horaTren - ahora) / 60000); // en minutos
+
+                  let esperaTexto = "";
+                  if (tiempoEspera < 60) {
+                    esperaTexto = `${tiempoEspera} min`;
+                  } else {
+                    const horas = Math.floor(tiempoEspera / 60);
+                    const minutos = tiempoEspera % 60;
+                    esperaTexto = `${horas}h ${minutos}min`;
+                  }
+
+                  timeCard.innerHTML = `
+                    <div class="card-body py-2">
+                      <div class="row align-items-center">
+                        <div class="col-auto">
+                          <div class="train-time-badge ${
+                            index === 0 ? "bg-success" : "bg-secondary"
+                          } text-white rounded-circle shadow p-2">
+                            <i class="fas fa-clock"></i>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <h5 class="card-title mb-0">${
+                            horario.hora_salida
+                          }</h5>
+                        </div>
+                        <div class="col-auto">
+                          <span class="badge shadow ${
+                            index === 0 ? "bg-success" : "bg-secondary"
+                          } text-white">
+                            ${index === 0 ? "Próximo" : `${index + 1}º`}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  `;
+                  horariosContainer.appendChild(timeCard);
+                });
+
+                resultadosDiv.appendChild(horariosContainer);
+              } else {
+                resultadosDiv.innerHTML += `
+                  <div class="alert alert-info" role="alert">
+                    <i class="fas fa-info-circle me-2"></i>
+                    ${
+                      window.currentTranslations?.noHorarios ||
+                      "No hay trenes programados después de la hora seleccionada"
+                    }
+                  </div>
+                `;
+              }
+            } catch (error) {
+              errorDiv.textContent =
+                window.currentTranslations?.errorProcesar ||
+                "Error al procesar los horarios";
+              errorDiv.classList.remove("d-none");
+              console.error("Error procesando horarios:", error);
+              resultadosDiv.innerHTML = "";
+            } finally {
+              submitBtn.disabled = false;
+              submitBtn.innerHTML =
+                window.currentTranslations?.verHorarios || "Ver horarios";
+            }
+          }, 500);
+        });
+      });
+    </script>
+  </body>
+</html>
